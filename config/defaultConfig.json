@@ -1,0 +1,14 @@
+{
+    "webserverPort": 1337,
+    "useNoSql": false,
+    "deviceId": "5fe27911-5554-4acd-95cc-6caddc19b6fb",
+    "dataDirectory": "./data/",
+    "mongoDbServerUrl": "",
+    "mongoDbDatabaseName": "",
+    "logDirectory": "logs",
+    "appLogLevels": {
+      "ffplay": {
+        "app": "info"
+      }
+    }
+  }

@@ -1,0 +1,4 @@
+ffmpeg/
+.vscode
+package-lock.json
+logs/
