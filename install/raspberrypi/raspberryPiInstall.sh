@@ -2,13 +2,14 @@
 echo Add Node.JS 16 repo
 curl -sSL https://deb.nodesource.com/setup_16.x | sudo bash -
 echo Install Node.JS
-catsudo apt install -y nodejs
+sudo apt install -y nodejs
 
 sudo mkdir /opt/de
 sudo chown $(id -u):$(id -g) /opt/de
 sudo useradd -m musicplayer
 sudo groupadd musicplayer
 sudo usermod -a -G audio musicplayer
+sudo usermod -a -G node musicplayer
 sudo usermod -a -G musicplayer $(id -u -n)
 newgrp musicplayer
 mkdir /opt/de/musicplayer
@@ -31,7 +32,7 @@ cd /opt/de/musicplayer
 echo downloading latest version of code
 curl -s https://api.github.com/repos/drcdevries/football-musicplayer/releases/latest | sed -n 's/.*"tarball_url": "\(.*\)",.*/\1/p' | xargs -n1 wget -O - -q | tar -xz --strip-components=1
 npm install
-sudo cp /opt/de/musicplayer/install/raspberrypi/service/musicplayer.service /lib/systemd/system/
+sudo cp /opt/de/musicplayer/services/musicplayer.service /lib/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl start musicplayer
 sudo systemctl enable musicplayer
