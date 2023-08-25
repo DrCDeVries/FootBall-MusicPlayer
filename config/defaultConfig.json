@@ -1,5 +1,6 @@
 {
     "webserverPort": 1337,
+    "audioFileDirectory": "data/songs",
     "useNoSql": false,
     "deviceId": "5fe27911-5554-4acd-95cc-6caddc19b6fb",
     "dataDirectory": "./data/",

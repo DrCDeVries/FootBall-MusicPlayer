@@ -19,36 +19,7 @@ const FFplay = require('./modules/ffplay.js');
 var app = express();
 const usb = require('usb');
 
-const audioFileDirectory = path.join("\data/songs");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '\data/songs')
-  },
-  filename: function (req, file, cb) {
-    
-    cb(null, file.originalname)
-  },
-   fileFilter: function (req, file, cb) {
-
-    // The function should call `cb` with a boolean
-    // to indicate if the file should be accepted
-  
-    // To reject this file pass `false`, like so:
-    if(['.mp3', '.m4a', '.wav'].includes(path.extname(file.originalname).toLowerCase())){
-      cb(null, true)
-    }else{cb(null, false)}
-
-  
-    // To accept the file pass `true`, like so:
-
-  
-    // You can always pass an error if something goes wrong:
-  }
-  
-})
-
-const upload = multer({ storage: storage })
 
 var configFileOptions = {
   "configDirectory": "config",
@@ -56,6 +27,24 @@ var configFileOptions = {
 }
 
 var localDebug = false;
+
+if (process.env.LOCALDEBUG === "true") {
+  localDebug = true;
+}
+if (process.env.CONFIGDIRECTORY) {
+  configFileOptions.configDirectory =process.env.CONFIGDIRECTORY;
+}
+if (process.env.CONFIGFILENAME) {
+  configFileOptions.configFileName =process.env.CONFIGFILENAME;
+}
+if (process.env.DATADIRECTORY) {
+  defaultConfig.dataDirectory =process.env.DATADIRECTORY;
+}
+
+if (process.env.LOGDIRECTORY) {
+  defaultConfig.logDirectory =process.env.LOGDIRECTORY;
+}
+
 
 var configHandler = new ConfigHandler(configFileOptions, defaultConfig);
 
@@ -82,14 +71,12 @@ let logUtilHelper = new LogUtilHelper({
 
 })
 
+const audioFileDirectory = path.join(objOptions.dataDirectory, "/songs");
 
-
-
-
-
-
-
-
+if (fs.existsSync(audioFileDirectory) === false) {
+ fs.mkdirSync(audioFileDirectory, { recursive: true }); 
+}
+  
 app.use(express.static(path.join(__dirname, 'public')));
 // disable the x-power-by express message in the header
 app.disable('x-powered-by');
@@ -222,6 +209,36 @@ var handlePublicFileRequest = function (req, res) {
 
   });
 
+
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, audioFileDirectory)
+    },
+    filename: function (req, file, cb) {
+      
+      cb(null, file.originalname)
+    },
+     fileFilter: function (req, file, cb) {
+  
+      // The function should call `cb` with a boolean
+      // to indicate if the file should be accepted
+    
+      // To reject this file pass `false`, like so:
+      if(['.mp3', '.m4a', '.wav'].includes(path.extname(file.originalname).toLowerCase())){
+        cb(null, true)
+      }else{cb(null, false)}
+  
+    
+      // To accept the file pass `true`, like so:
+  
+    
+      // You can always pass an error if something goes wrong:
+    }
+    
+  })
+  
+  const upload = multer({ storage: storage })
+
   routes.post('/upload', upload.single('file',100,true), (req, res) => {
     if (!fs.existsSync(directoryName)) {
       fs.mkdir(directoryName, (err) => {
@@ -250,6 +267,10 @@ var handlePublicFileRequest = function (req, res) {
 
 
 
-    http.createServer(app).listen(1337, () => {
-        console.log('Express server listening on port 1337');
-      });
+
+
+
+
+  http.createServer(app).listen(objOptions.webserverPort, () => {
+    console.log('Express server listening on port ' + objOptions.webserverPort);
+  });
