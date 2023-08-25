@@ -122,6 +122,27 @@ var handlePublicFileRequest = function (req, res) {
           res.send(files);
         });
       
+      }else if(filePath === "/data/usbCheck"){
+
+        usb.on('attach', function(device) {
+          console.log('USB drive attached:', device);
+          
+          // Define the path to the USB drive
+          const usbPath = device.mountpoints[0].path;
+      
+          // Search for folders and .mp3 files
+          const contents = fs.readdirSync(usbPath);
+          const folders = contents.filter(item => fs.statSync(path.join(usbPath, item)).isDirectory());
+          const mp3Files = contents.filter(item => path.extname(item) === '.mp3');
+      
+          const data = {
+              folders: folders,
+              mp3Files: mp3Files
+          };
+          res.json(data);
+          // Now you can serve this data to your website
+      });
+      
       }
     }
     else {
@@ -149,7 +170,7 @@ var handlePublicFileRequest = function (req, res) {
             audioFilePlayer = null;
         }
         audioFilePlayer = new FFplay(audioFolder, audioFile, options, logUtilHelper,startTime);
-    
+        
     }
     var audioFileStop = function () {
       if (audioFilePlayer !== null) {
@@ -162,7 +183,6 @@ var handlePublicFileRequest = function (req, res) {
         
         case "start":
           console.log(audioFileDirectory+"/"+req.body.filepath);
-          //console.log(req.body.filepath);
           audioFilePlay(audioFileDirectory , req.body.filepath, ['-hide_banner', '-nodisp', '-autoexit'],startTime);
         res.send(`playing:${responseString}`);
           break;
@@ -187,6 +207,12 @@ var handlePublicFileRequest = function (req, res) {
 
 
   });
+
+
+
+
+
+
 
     http.createServer(app).listen(1337, () => {
         console.log('Express server listening on port 1337');

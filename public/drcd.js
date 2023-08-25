@@ -20,7 +20,10 @@
                 home: {templateFile:'home.htm', title:'Home',onLoad:function(){
                     $.drcd.getSongs();
 
-                }},
+                },},
+                addsongs: {templateFile:'addsongs.htm', title:'Add Songs',onLoad:function(){
+                    $.drcd.checkUsb();
+                },},
                 
             }
                 
@@ -165,7 +168,9 @@
                 return formattedTime;
               }
         },
-        
+        checkUsb : function(){
+            
+        },
         
         loadPage : function(pageIndex){
             

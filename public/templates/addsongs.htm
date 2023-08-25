@@ -1,0 +1,12 @@
+<script>
+                fetch('/usbCheck',{
+                    method: 'get',
+                   })
+                   .then(response => {
+                    //console.log(JSON.stringify(data));
+                     if (!response.ok) {
+                       throw new Error("error playing Song");
+                     }
+                     console.log(response) ;
+                   });
+</script>
