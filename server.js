@@ -50,6 +50,11 @@ var configHandler = new ConfigHandler(configFileOptions, defaultConfig);
 
 var objOptions = configHandler.config;
 
+console.log("Config Directory:" + configFileOptions.configDirectory);
+console.log("Config File:" + configFileOptions.configFileName);
+
+console.log("Data Directory:" + objOptions.dataDirectory);
+console.log("Log Directory:" + objOptions.logDirectory);
 
 let logUtilHelper = new LogUtilHelper({
   appLogLevels: objOptions.appLogLevels,
