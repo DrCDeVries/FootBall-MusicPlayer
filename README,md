@@ -1,7 +1,7 @@
 #Music Player
 
 ```
-curl  -LS "https://raw.githubusercontent.com/DrCDeVries/FootBall-MusicPlayer/install/raspberrypi/raspberryPiInstall.sh" -o "musicPlayerInstall.sh"
+curl  -LS "https://raw.githubusercontent.com/DrCDeVries/FootBall-MusicPlayer/main/install/raspberrypi/raspberryPiInstall.sh" -o "musicPlayerInstall.sh"
 chmod +x musicPlayerInstall.sh
 ./musicPlayerInstall.sh
 
