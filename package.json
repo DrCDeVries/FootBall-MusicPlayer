@@ -1,4 +1,33 @@
 {
+  "name": "musicplayer",
+  "version": "0.0.1",
+  "private": false,
+  "license": "Apache-2.0",
+  "keywords": [
+    "embedded",
+    "linux",
+    "music player"
+  ],
+  "scripts": {
+    "start": "node ./server.js"
+  },
+  "bugs": {
+    "url": "https://github.com/DrCDeVries/FootBall-MusicPlayer/issues"
+  },
+  "homepage": "https://github.com/DrCDeVries/FootBall-MusicPlayer#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DrCDeVries/FootBall-MusicPlayer.git"
+  },
+  "description": "Digital Example Linux based Music Player",
+  "main": "app.js",
+  "engines": {
+    "node": ">= 16.0.0"
+  },
+  "author": {
+    "name": "Connor DeVries",
+    "email": "cdevries@digitalexample.com"
+  },
   "dependencies": {
     "@andrewiski/confighandler": "^1.0.1",
     "@andrewiski/logutilhelper": "^1.0.20",
@@ -33,3 +62,6 @@
     "uuid": "^9.0.0"
   }
 }
+
+
+

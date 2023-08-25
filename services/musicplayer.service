@@ -1,0 +1,15 @@
+[Unit]
+Description=Music Player
+Documentation=https://github.com/DrCDeVries/FootBall-MusicPlayer
+After=network.target
+
+[Service]
+Environment="CONFIGDIRECTORY=/opt/de/appdata/musicplayer/config" "DATADIRECTORY=/opt/de/appdata/musicplayer/data" "LOGDIRECTORY=/opt/de/appdata/musicplayer/logs"
+WorkingDirectory=/opt/de/musicplayer
+Type=exec
+User=radar
+ExecStart=/usr/bin/npm start
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
