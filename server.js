@@ -36,12 +36,12 @@ const storage = multer.diskStorage({
   
     // To reject this file pass `false`, like so:
     if(['.mp3', '.m4a', '.wav'].includes(path.extname(file.originalname).toLowerCase())){
-      cb(null, false)
-    }
+      cb(null, true)
+    }else{cb(null, false)}
 
   
     // To accept the file pass `true`, like so:
-    cb(null, true)
+
   
     // You can always pass an error if something goes wrong:
   }
