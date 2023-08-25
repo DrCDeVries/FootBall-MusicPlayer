@@ -1,8 +1,8 @@
 #!/bin/bash     
 #echo Add Node.JS 16 repo
 #curl -sSL https://deb.nodesource.com/setup_16.x | sudo bash -
-echo Install Node.JS
-#sudo apt install -y nodejs
+#echo Install Node.JS
+#catsudo apt install -y nodejs
 
 sudo mkdir /opt/de
 sudo chown $(id -u):$(id -g) /opt/de
@@ -10,13 +10,13 @@ sudo useradd -m musicplayer
 sudo groupadd musicplayer
 sudo usermod -a -G audio musicplayer
 sudo usermod -a -G musicplayer $(id -u -n)
-newgrp radar
+newgrp musicplayer
 mkdir /opt/de/musicplayer
 mkdir /opt/de/appdata
 mkdir /opt/de/appdata/musicplayer
 sudo chown musicplayer:musicplayer /opt/de/appdata/musicplayer
 sudo chmod g+rw /opt/de/appdata/musicplayer
-sudo chown radar:radar /opt/de/musicplayer
+sudo chown musicplayer:musicplayer /opt/de/musicplayer
 sudo chmod g+rw /opt/de/musicplayer
 
 mkdir /opt/de/appdata/musicplayer/config
@@ -37,13 +37,13 @@ sudo systemctl start musicplayer
 sudo systemctl enable musicplayer
 #Change musicplayer user Password
 #sudo passwd musicplayer
-#Set Radar Bash Sell
+#Set Musicplayer Bash Sell
 #sudo chsh -s /bin/bash musicplayer
 #Change to musicplayer User
 #su musicplayer
-#Set Radar Bash
+#Set MusicPlayer Bash
 #
-#Test Config do this as Radar after su radar
+#Test Config do this as MusicPlayer after su musicplayer
 # DEBUG=app, CONFIGDIRECTORY=/opt/de/appdata/musicplayer/config DATADIRECTORY=/opt/de/appdata/musicplayer/data LOGDIRECTORY=/opt/de/appdata/musicplayer/logs npm start
 
 
