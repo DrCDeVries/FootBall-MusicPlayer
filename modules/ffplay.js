@@ -33,9 +33,7 @@ function FFplay(folder, file, opts, logUtilHelper,startTime) {
 	
 	logUtilHelper.log(appLogName, "app", "debug", "playing file", filePath);
 	// Spawn process
-	this.proc = spawn(ffplayPath, opts).catch((error) => {
-		console.log(error);
-	});
+	this.proc = spawn(ffplayPath, opts);
 
 	this.file = file;
 	
