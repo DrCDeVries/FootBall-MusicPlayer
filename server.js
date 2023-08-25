@@ -18,7 +18,7 @@ const { send } = require('process');
 const FFplay = require('./modules/ffplay.js');
 var app = express();
 const usb = require('usb');
-const upload = multer({ dest: `\Files` });
+const upload = multer({ dest: `\data/songs`, preservePath:true });
 const audioFileDirectory = path.join("\data/songs");
 
 var configFileOptions = {
@@ -193,54 +193,15 @@ var handlePublicFileRequest = function (req, res) {
 
   });
 
-  routes.post('/uploadFile', (req, res) => {
-    const command = req.body.command;
-    const startTime = req.body.startTime;
-
-
-    var audioFilePlay = function (audioFolder, audioFile, options,startTime) {
-
-      if (audioFilePlayer !== null) {
-          audioFilePlayer.stop();
-          audioFilePlayer = null;
-      }
-      audioFilePlayer = new FFplay(audioFolder, audioFile, options, logUtilHelper,startTime);
-      
-  }
-  var audioFileStop = function () {
-    if (audioFilePlayer !== null) {
-        audioFilePlayer.stop();
-        audioFilePlayer = null;
+  routes.post('/upload', upload.single('file',100,true), (req, res) => {
+    if (!req.file) {
+      return res.status(400).send('No file uploaded.');
     }
-}
-const responseString =  JSON.stringify(req.body.filepath);
-    switch (command) {
-      
-      case "start":
-        console.log(audioFileDirectory+"/"+req.body.filepath);
-        audioFilePlay(audioFileDirectory , req.body.filepath, ['-hide_banner', '-nodisp', '-autoexit'],startTime);
-      res.send(`playing:${responseString}`);
-        break;
-      case "stop":
-        console.log("It's Monday");
-        break;
-      case "seek":
-        console.log("It's Tuesday");
-        break;
-        case "pause":
-          audioFileStop();
-          res.send("Stopped:"+responseString);
-          break;
-      default:
-        console.log("Invalid Command");
-    }
+      // File uploaded successfully, you can access it using req.file
+    console.log('File uploaded:', req.file);
 
-
-
-
-    // Function to stop audio
-
-
+    // Send a response to the client
+    res.send('File uploaded successfully.');
 });
 
 
