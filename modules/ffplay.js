@@ -15,14 +15,14 @@ function FFplay(folder, file, opts, logUtilHelper,startTime) {
 	} else {
 		if (process.platform === 'win32') {
 			ffplayPath = path.join(__dirname, '..', 'ffmpeg', 'ffplay.exe');
-		} else {
+		}else{
 			ffplayPath = 'ffplay';
         }
     }
 
 	var filePath = path.join(folder, file);
 	// Get custom options or fallback to defaults
-	opts = opts || ['-nodisp', '-autoexit'];
+	opts = opts || ['-nodisp', '-autoexit', '-volume', 100];
 	opts.unshift(filePath);
 	//var startTime = '00:00:10';
 	if(startTime){
@@ -33,7 +33,9 @@ function FFplay(folder, file, opts, logUtilHelper,startTime) {
 	
 	logUtilHelper.log(appLogName, "app", "debug", "playing file", filePath);
 	// Spawn process
-	this.proc = spawn(ffplayPath, opts);
+	this.proc = spawn(ffplayPath, opts).catch((error) => {
+		console.log(error);
+	});
 
 	this.file = file;
 	
