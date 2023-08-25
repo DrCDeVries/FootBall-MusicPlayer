@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
                 fetch('/data/usbCheck',{
                     method: 'get',
                    })
@@ -9,5 +9,71 @@
                      }
                      //console.log(JSON.stringify(res));
                      console.log(response);
+                   }).then(files=> {
+                    console.log(files);
                    });
+</script> -->
+
+<script>
+  // Function to handle file upload
+  function uploadFile(file) {
+    var formData = new FormData();
+    formData.append('file', file);
+
+    // Send POST request to the server
+    fetch('/upload', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+      console.log('Server response:', result);
+      // Handle server response as needed
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Handle error
+    });
+  }
+
+  // Function to handle file selection
+  function handleFileSelect(event) {
+    var file = event.target.files[0];
+    uploadFile(file);
+  }
+
+  // Function to handle drag-and-drop area
+  function handleDragOver(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.dataTransfer.dropEffect = 'copy';
+  }
+
+  function handleDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    var file = event.dataTransfer.files[0];
+    uploadFile(file);
+  }
+
+  // Add event listeners
+  var fileInput = document.getElementById('fileInput');
+  fileInput.addEventListener('change', handleFileSelect, false);
+
+  var dropArea = document.getElementById('dropArea');
+  dropArea.addEventListener('dragover', handleDragOver, false);
+  dropArea.addEventListener('drop', handleDrop, false);
 </script>
+<div>
+
+
+  <div id="dropArea" class="drop-area">
+    <p>Drag and drop files here</p>
+  </div>
+  
+  <input type="file" id="fileInput">
+
+
+
+</div>
