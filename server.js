@@ -17,6 +17,7 @@ const zip = require('express-zip');
 const { send } = require('process');
 const FFplay = require('./modules/ffplay.js');
 var app = express();
+const usb = require('usb');
 const upload = multer({ dest: `\Files` });
 const audioFileDirectory = path.join("\data/songs");
 
@@ -124,25 +125,8 @@ var handlePublicFileRequest = function (req, res) {
       
       }else if(filePath === "/data/usbCheck"){
 
-        usb.on('attach', function(device) {
-          console.log('USB drive attached:', device);
-          
-          // Define the path to the USB drive
-          const usbPath = device.mountpoints[0].path;
-      
-          // Search for folders and .mp3 files
-          const contents = fs.readdirSync(usbPath);
-          const folders = contents.filter(item => fs.statSync(path.join(usbPath, item)).isDirectory());
-          const mp3Files = contents.filter(item => path.extname(item) === '.mp3');
-      
-          const data = {
-              folders: folders,
-              mp3Files: mp3Files
-          };
-          res.json(data);
-          // Now you can serve this data to your website
-      });
-      
+       const devices = usb.getDeviceList();
+        console.log(devices);
       }
     }
     else {
