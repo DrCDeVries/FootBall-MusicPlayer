@@ -3,3 +3,4 @@ ffmpeg/
 package-lock.json
 logs/
 data/songs
+node_modules

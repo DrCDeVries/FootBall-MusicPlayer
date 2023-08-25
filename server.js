@@ -127,6 +127,7 @@ var handlePublicFileRequest = function (req, res) {
 
        const devices = usb.getDeviceList();
         console.log(devices);
+        res.send(devices);
       }
     }
     else {
@@ -142,7 +143,7 @@ var handlePublicFileRequest = function (req, res) {
     app.use('/', routes);
 
     var audioFilePlayer = null;
-    app.post('/songControl', (req, res) => {
+    routes.post('/songControl', (req, res) => {
       const command = req.body.command;
       const startTime = req.body.startTime;
 
@@ -191,6 +192,56 @@ var handlePublicFileRequest = function (req, res) {
 
 
   });
+
+  routes.post('/uploadFile', (req, res) => {
+    const command = req.body.command;
+    const startTime = req.body.startTime;
+
+
+    var audioFilePlay = function (audioFolder, audioFile, options,startTime) {
+
+      if (audioFilePlayer !== null) {
+          audioFilePlayer.stop();
+          audioFilePlayer = null;
+      }
+      audioFilePlayer = new FFplay(audioFolder, audioFile, options, logUtilHelper,startTime);
+      
+  }
+  var audioFileStop = function () {
+    if (audioFilePlayer !== null) {
+        audioFilePlayer.stop();
+        audioFilePlayer = null;
+    }
+}
+const responseString =  JSON.stringify(req.body.filepath);
+    switch (command) {
+      
+      case "start":
+        console.log(audioFileDirectory+"/"+req.body.filepath);
+        audioFilePlay(audioFileDirectory , req.body.filepath, ['-hide_banner', '-nodisp', '-autoexit'],startTime);
+      res.send(`playing:${responseString}`);
+        break;
+      case "stop":
+        console.log("It's Monday");
+        break;
+      case "seek":
+        console.log("It's Tuesday");
+        break;
+        case "pause":
+          audioFileStop();
+          res.send("Stopped:"+responseString);
+          break;
+      default:
+        console.log("Invalid Command");
+    }
+
+
+
+
+    // Function to stop audio
+
+
+});
 
 
 
