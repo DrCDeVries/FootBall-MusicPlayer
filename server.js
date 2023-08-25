@@ -28,7 +28,24 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     
     cb(null, file.originalname)
+  },
+   fileFilter: function (req, file, cb) {
+
+    // The function should call `cb` with a boolean
+    // to indicate if the file should be accepted
+  
+    // To reject this file pass `false`, like so:
+    if(['.mp3', '.m4a', '.wav'].includes(path.extname(file.originalname).toLowerCase())){
+      cb(null, true)
+    }else{cb(null, false)}
+
+  
+    // To accept the file pass `true`, like so:
+
+  
+    // You can always pass an error if something goes wrong:
   }
+  
 })
 
 const upload = multer({ storage: storage })
@@ -206,6 +223,17 @@ var handlePublicFileRequest = function (req, res) {
   });
 
   routes.post('/upload', upload.single('file',100,true), (req, res) => {
+    if (!fs.existsSync(directoryName)) {
+      fs.mkdir(directoryName, (err) => {
+        if (err) {
+          console.error('Error creating directory:', err);
+        } else {
+          console.log('Directory created successfully.');
+        }
+      });
+    } else {
+      console.log('Directory already exists.');
+    }
     if (!req.file) {
       return res.status(400).send('No file uploaded.');
     }
