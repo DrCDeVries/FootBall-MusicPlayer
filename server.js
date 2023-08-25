@@ -18,8 +18,20 @@ const { send } = require('process');
 const FFplay = require('./modules/ffplay.js');
 var app = express();
 const usb = require('usb');
-const upload = multer({ dest: `\data/songs` });
+
 const audioFileDirectory = path.join("\data/songs");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '\data/songs')
+  },
+  filename: function (req, file, cb) {
+    
+    cb(null, file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 var configFileOptions = {
   "configDirectory": "config",
