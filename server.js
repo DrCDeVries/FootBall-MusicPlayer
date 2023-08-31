@@ -1,5 +1,6 @@
 const appLogName = 'VicksburgAudioStream';
 const defaultConfig = require('./config/defaultConfig.json');
+console.log(defaultConfig);
 const http = require('http');
 const https = require('https');
 const path = require('path');
@@ -18,7 +19,6 @@ const { send } = require('process');
 const FFplay = require('./modules/ffplay.js');
 var app = express();
 const usb = require('usb');
-
 
 
 var configFileOptions = {
@@ -240,27 +240,27 @@ var handlePublicFileRequest = function (req, res) {
       // You can always pass an error if something goes wrong:
     }
     
-  })
+  });
   
   const upload = multer({ storage: storage })
 
   routes.post('/upload', upload.single('file',100,true), (req, res) => {
-    if (!fs.existsSync(directoryName)) {
-      fs.mkdir(directoryName, (err) => {
-        if (err) {
-          console.error('Error creating directory:', err);
-        } else {
-          console.log('Directory created successfully.');
-        }
-      });
-    } else {
-      console.log('Directory already exists.');
-    }
-    if (!req.file) {
-      return res.status(400).send('No file uploaded.');
-    }
+    // if (!fs.existsSync(directoryName)) {
+    //   fs.mkdir(directoryName, (err) => {
+    //     if (err) {
+    //       console.error('Error creating directory:', err);
+    //     } else {
+    //       console.log('Directory created successfully.');
+    //     }
+    //   });
+    // } else {
+    //   console.log('Directory already exists.');
+    // }
+    // if (!req.file) {
+    //   return res.status(400).send('No file uploaded.');
+    // }
       // File uploaded successfully, you can access it using req.file
-    console.log('File uploaded:', req.file);
+    //console.log('File uploaded:', req.file);
 
     // Send a response to the client
     res.send('File uploaded successfully.');

@@ -22,7 +22,7 @@
 
                 },},
                 addsongs: {templateFile:'addsongs.htm', title:'Add Songs',onLoad:function(){
-                    $.drcd.checkUsb();
+                    //$.drcd.checkUsb();
                 },},
                 
             }
@@ -33,6 +33,24 @@
         },
         getSongs : function(){
             let index = 0;
+            var toggle = true;
+            const playlistPlay = document.getElementById("play");
+            playlistPlay.addEventListener('play', function(event) {
+                if(audioPlayer.muted == true){
+                    console.log(formatTime(audioPlayer.currentTime));
+                    playSong(audioPlayer.id,formatTime(audioPlayer.currentTime));
+                    // Call your function for when audio starts playing
+                }
+                const img = button.querySelector('img'); // Get the image inside the clicked button
+                if(toggle == true ){
+                    img.src="/images/pause.png";
+                    toggle
+                }
+              });
+            const playlistShuffle = document.getElementById("shuffle");
+            const playlistSkip = document.getElementById("next");
+            const playlistBack = document.getElementById("back");
+
             fetch('/data/musicList',{
                 method: 'GET',
                })
